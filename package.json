@@ -1,0 +1,19 @@
+{
+  "name": "react-dnd-html5-with-touch-backend",
+  "version": "1.0.0",
+  "description": "HTML5 backend for React DnD with touch support",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --compilers js:babel/register --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Neilos/react-dnd-html5-with-touch-backend.git"
+  },
+  "author": "\"Neil Atkinson (http://github.com/Neilos)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Neilos/react-dnd-html5-with-touch-backend/issues"
+  },
+  "homepage": "https://github.com/Neilos/react-dnd-html5-with-touch-backend#readme"
+}
