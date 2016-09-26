@@ -13,15 +13,46 @@ export default class HTML5TouchBackend {
     this.connectDragSource = connectDragSource.bind(this)
     this.connectDropTarget = connectDropTarget.bind(this)
     this.connectDragPreview = connectDragPreview.bind(this)
+
+    this.addCustomEventListeners = addCustomEventListeners.bind(this)
+    this.removeCustomEventListeners = removeCustomEventListeners.bind(this)
   }
 }
 
 var addEventListeners = function (target) {
   this.addCustomEventListeners(target)
+  this._addEventListeners(target)
+}
+
+var addCustomEventListeners = function (target) {
+  target.addEventListener('touchdragstart', this.handleTopDragStart)
+  target.addEventListener('touchdragstart', this.handleTopDragStartCapture, true)
+  target.addEventListener('touchdragend', this.handleTopDragEndCapture, true)
+  target.addEventListener('touchdragenter', this.handleTopDragEnter)
+  target.addEventListener('touchdragenter', this.handleTopDragEnterCapture, true)
+  target.addEventListener('touchdragleave', this.handleTopDragLeaveCapture, true)
+  target.addEventListener('touchdragover', this.handleTopDragOver)
+  target.addEventListener('touchdragover', this.handleTopDragOverCapture, true)
+  target.addEventListener('touchdrop', this.handleTopDrop)
+  target.addEventListener('touchdrop', this.handleTopDropCapture, true)
 }
 
 var removeEventListeners = function (target) {
   this.removeCustomEventListeners(target)
+  this._removeEventListeners(target)
+}
+
+var removeCustomEventListeners = function (target) {
+  target.removeEventListener('touchdragstart', this.handleTopDragStart)
+  target.removeEventListener('touchdragstart', this.handleTopDragStartCapture, true)
+  target.removeEventListener('touchdragend', this.handleTopDragEndCapture, true)
+  target.removeEventListener('touchdragenter', this.handleTopDragEnter)
+  target.removeEventListener('touchdragenter', this.handleTopDragEnterCapture, true)
+  target.removeEventListener('touchdragleave', this.handleTopDragLeaveCapture, true)
+  target.removeEventListener('touchdragover', this.handleTopDragOver)
+  target.removeEventListener('touchdragover', this.handleTopDragOverCapture, true)
+  target.removeEventListener('touchdrop', this.handleTopDrop)
+  target.removeEventListener('touchdrop', this.handleTopDropCapture, true)
 }
 
 var connectDragPreview = function (sourceId, node, options) {
@@ -31,7 +62,15 @@ var connectDragPreview = function (sourceId, node, options) {
 var connectDragSource = function (sourceId, node, options) {
   let _superReturn = this._connectDragSource(sourceId, node, options)
 
+  const touchHandleDragStart = (e) => this.handleDragStart(e, sourceId);
+  const touchHandleSelectStart = (e) => this.handleSelectStart(e, sourceId);
+
+  node.addEventListener('touchdragstart', touchHandleDragStart)
+  node.addEventListener('touchselectstart', touchHandleSelectStart)
+
   return () => {
+    node.removeEventListener('touchdragstart', touchHandleDragStart)
+    node.removeEventListener('touchselectstart', touchHandleSelectStart)
     _superReturn()
   }
 }
@@ -39,8 +78,18 @@ var connectDragSource = function (sourceId, node, options) {
 var connectDropTarget = function (targetId, node) {
   let _superReturn = this._connectDropTarget(targetId, node)
 
+  const touchHandleDragEnter = (e) => this.handleDragEnter(e, targetId);
+  const touchHandleDragOver = (e) => this.handleDragOver(e, targetId);
+  const touchHandleDrop = (e) => this.handleDrop(e, targetId);
+
+  node.addEventListener('touchdragenter', touchHandleDragEnter)
+  node.addEventListener('touchdragover', touchHandleDragOver)
+  node.addEventListener('touchdrop', touchHandleDrop)
+
   return () => {
+    node.removeEventListener('touchdragenter', touchHandleDragEnter)
+    node.removeEventListener('touchdragover', touchHandleDragOver)
+    node.removeEventListener('touchdrop', touchHandleDrop)
     _superReturn()
   }
 }
-
