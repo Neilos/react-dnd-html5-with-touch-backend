@@ -29,9 +29,7 @@
     "webpack": "^2.1.0-beta"
   },
   "dependencies": {
-    "react-dnd-html5-backend": "^2.1.2"
-  },
-  "peerDependencies": {
-    "touch-dnd-custom-events": "^1.1.0"
+    "react-dnd-html5-backend": "^2.1.2",
+    "touch-dnd-custom-events": "^1.2.0"
   }
 }

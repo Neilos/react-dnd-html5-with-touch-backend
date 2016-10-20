@@ -1,3 +1,5 @@
+import setupTouchDNDCustomEvents from 'touch-dnd-custom-events'
+
 export default class HTML5TouchBackend {
   constructor(manager) {
     // Store bindings to prototype functions
@@ -60,6 +62,8 @@ var connectDragPreview = function (sourceId, node, options) {
 }
 
 var connectDragSource = function (sourceId, node, options) {
+  setupTouchDNDCustomEvents()
+
   let _superReturn = this._connectDragSource(sourceId, node, options)
 
   const touchHandleDragStart = (e) => this.handleDragStart(e, sourceId);
